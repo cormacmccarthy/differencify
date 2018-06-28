@@ -38,6 +38,9 @@ const compareImage = async (capturedImage, globalConfig, testConfig) => {
 
   const diffDir = path.join(snapshotsDir, '__differencified_output__');
   const diffPath = path.join(diffDir, `${testConfig.testName}.differencified.${testConfig.imageType || 'png'}`);
+
+  const altSnapshotDir = path.join(snapshotsDir, '__different_snapshot__');
+  const altSnapshotPath = path.join(altSnapshotDir, `${testConfig.testName}.new.snap.${testConfig.imageType || 'png'}`);
   if (fs.existsSync(snapshotPath) && !testConfig.isUpdate) {
     let snapshotImage;
     try {
@@ -63,6 +66,21 @@ const compareImage = async (capturedImage, globalConfig, testConfig) => {
       return { snapshotPath, distance, diffPercent: diff.percent, matched: true };
     }
     if (globalConfig.saveDifferencifiedImage) {
+     try {
+        if (!fs.existsSync(altSnapshotDir)) {
+          fs.mkdirSync(altSnapshotDir);
+        }
+        if (fs.existsSync(altSnapshotPath)) {
+          fs.unlinkSync(altSnapshotPath);
+        }
+
+        await fs.writeFileSync(altSnapshotPath, capturedImage);
+        prefixedLogger.log(`saved the differing snapshot to disk at ${altSnapshotPath}`);
+      } catch (error) {
+        prefixedLogger.error(`failed to save the differing snapshot: ${altSnapshotPath}`);
+        prefixedLogger.trace(error);
+      }
+
       try {
         if (!fs.existsSync(diffDir)) {
           fs.mkdirSync(diffDir);
@@ -70,6 +88,7 @@ const compareImage = async (capturedImage, globalConfig, testConfig) => {
         if (fs.existsSync(diffPath)) {
           fs.unlinkSync(diffPath);
         }
+
         await saveDiff(diff, diffPath);
         prefixedLogger.log(`saved the diff image to disk at ${diffPath}`);
       } catch (error) {
