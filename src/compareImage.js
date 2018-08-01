@@ -34,7 +34,7 @@ const compareImage = async (capturedImage, globalConfig, testConfig) => {
     path.resolve(globalConfig.imageSnapshotPath) :
     getSnapshotsDir(testConfig, globalConfig);
 
-  const snapshotPath = path.join(snapshotsDir, `${testConfig.testName}.snap.${testConfig.imageType || 'png'}`);
+  const snapshotPath = testConfig.path ? testConfig.path : path.join(snapshotsDir, `${testConfig.testName}.snap.${testConfig.imageType || 'png'}`);
 
   const diffDir = path.join(snapshotsDir, '__differencified_output__');
   const diffPath = path.join(diffDir, `${testConfig.testName}.differencified.${testConfig.imageType || 'png'}`);

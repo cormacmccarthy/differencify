@@ -100,6 +100,7 @@ export default class Target {
       try {
         this.image = await this.page.screenshot(options);
         this.testConfig.imageType = (options && options.type) || 'png';
+        this.testConfig.path = (options && options.path) || undefined;
         return this.image;
       } catch (error) {
         this._logError(error);
