@@ -34,13 +34,13 @@ const compareImage = async (capturedImage, globalConfig, testConfig) => {
     path.resolve(globalConfig.imageSnapshotPath) :
     getSnapshotsDir(testConfig, globalConfig);
 
-  const snapshotPath = path.join(snapshotsDir, `${testConfig.testName}.${testConfig.imgName || 'snap'}.${testConfig.imageType || 'png'}`);
+  const snapshotPath = path.join(snapshotsDir, `${testConfig.imgName || testConfig.testName + '.snap'}.${testConfig.imageType || 'png'}`);
 
   const diffDir = path.join(snapshotsDir, '__differencified_output__');
-  const diffPath = path.join(diffDir, `${testConfig.testName}.${testConfig.imgName || 'snap'}.differencified.${testConfig.imageType || 'png'}`);
+  const diffPath = path.join(diffDir, `${testConfig.imgName || testConfig.testName + '.snap'}.differencified.${testConfig.imageType || 'png'}`);
 
   const altSnapshotDir = path.join(snapshotsDir, '__different_snapshot__');
-  const altSnapshotPath = path.join(altSnapshotDir, `${testConfig.testName}.new.${testConfig.imgName || 'snap'}.${testConfig.imageType || 'png'}`);
+  const altSnapshotPath = path.join(altSnapshotDir, `${testConfig.imgName || testConfig.testName + '.snap'}.new.${testConfig.imageType || 'png'}`);
   if (fs.existsSync(snapshotPath) && !testConfig.isUpdate) {
     let snapshotImage;
     try {
