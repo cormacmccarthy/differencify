@@ -200,17 +200,14 @@ export default class Target {
     }
   }
 
-  async toMatchSnapshot(options, callback) {
+  async toMatchSnapshot(image, options, callback) {
     let resultCallback;
-    if (options && !isFunc(options)) {
-      if (isObject(options)) {
-        this.image = options.image;
-
-        if (options.path) {
-          this.testConfig.path = options.path;
-        }
-      } else {
-        this.image = options;
+    if (image && !isFunc(image) && !isObject(image)) {
+      this.image = image;
+    }
+    if (isObject(options)) {
+      if (options.path) {
+        this.testConfig.path = options.path;
       }
     } else if (isFunc(options)) {
       resultCallback = options;

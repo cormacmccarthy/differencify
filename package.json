@@ -1,6 +1,6 @@
 {
   "name": "sf-differencify",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "Perceptual diffing tool",
   "main": "dist/index.js",
   "scripts": {
