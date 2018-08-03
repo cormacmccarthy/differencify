@@ -206,8 +206,8 @@ export default class Target {
       this.image = image;
     }
     if (isObject(options)) {
-      if (options.path) {
-        this.testConfig.path = options.path;
+      if (options.imgName) {
+        this.testConfig.imgName = options.imgName;
       }
     } else if (isFunc(options)) {
       resultCallback = options;
