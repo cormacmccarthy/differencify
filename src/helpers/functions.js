@@ -3,4 +3,4 @@ const isObject = property => (typeof (property) === 'object' && property !== nul
 const handleAsyncFunc = async (target, property, args) =>
   (args ? await target[property](...args) : await target[property]());
 
-export { isFunc, handleAsyncFunc };
+export { isFunc, isObject, handleAsyncFunc };
