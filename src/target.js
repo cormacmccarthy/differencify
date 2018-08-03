@@ -4,7 +4,7 @@ import jestMatchers from './utils/jestMatchers';
 import compareImage from './compareImage';
 import functionToString from './helpers/functionToString';
 import freezeImage from './freezeImage';
-import { isFunc, handleAsyncFunc } from './helpers/functions';
+import { isFunc, isObject, handleAsyncFunc } from './helpers/functions';
 
 export default class Target {
   constructor(browser, globalConfig, testConfig) {
@@ -100,7 +100,6 @@ export default class Target {
       try {
         this.image = await this.page.screenshot(options);
         this.testConfig.imageType = (options && options.type) || 'png';
-        this.testConfig.path = (options && options.path) || undefined;
         return this.image;
       } catch (error) {
         this._logError(error);
@@ -201,12 +200,20 @@ export default class Target {
     }
   }
 
-  async toMatchSnapshot(image, callback) {
+  async toMatchSnapshot(options, callback) {
     let resultCallback;
-    if (image && !isFunc(image)) {
-      this.image = image;
-    } else if (isFunc(image)) {
-      resultCallback = image;
+    if (options && !isFunc(options)) {
+      if (isObject(options)) {
+        this.image = options.image;
+
+        if (options.path) {
+          this.testConfig.path = options.path;
+        }
+      } else {
+        this.image = options;
+      }
+    } else if (isFunc(options)) {
+      resultCallback = options;
     }
     if (callback && isFunc(callback)) {
       resultCallback = callback;
