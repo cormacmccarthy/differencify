@@ -217,7 +217,7 @@ export default class Target {
       }
     }
     if (options && isObject(options)) {
-      setOptions(image);
+      setOptions(options);
     } else if (isFunc(options)) {
       resultCallback = options;
     }
