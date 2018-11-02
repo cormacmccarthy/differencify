@@ -208,9 +208,10 @@ export default class Target {
       }
     }
     if (image) {
-      if (!isFunc(image) && !isObject(image)) {
+      // no good way to tell if image is image or options, so just use it for both.
+      // if options is also an object, it will be set as such in the next step.
+      if (!isFunc(image) && isObject(image)) {
         this.image = image;
-      } else if (isObject(image)) {
         setOptions(image);
       } else {
         resultCallback = image;
