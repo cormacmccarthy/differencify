@@ -112,7 +112,7 @@ const compareImage = async (capturedImage, globalConfig, testConfig) => {
   if (!fs.existsSync(snapshotsDir)) {
     fs.mkdirSync(snapshotsDir);
   }
-  fs.writeFileSync('/Users/cmcculloh/projects/demuxe/test/screenshots/test2.png', screenshot);
+
   fs.writeFileSync(snapshotPath, capturedImage);
   return testConfig.isUpdate ? { updated: true } : { added: true };
 };
